@@ -93,12 +93,22 @@ public class Ihm {
                 • I = nombre de défaites à 1 échelon inférieur ;
                 • G =nombre de défaite à 2 échelons
             * */
-        maxBonus = victoires - echelonEgale - 2 * echelon1Inf - 5 * echelon2Inf;
+        int scoreBonus = victoires - echelonEgale - 2 * echelon1Inf - 5 * echelon2Inf;
+        if (scoreBonus > 25) {
+            maxVictoire += 6;
+        } else if (scoreBonus > 20) {
+            maxVictoire += 5;
+        } else if (scoreBonus > 15) {
+            maxVictoire += 4;
+        } else if (scoreBonus > 10) {
+            maxVictoire += 3;
+        } else if (scoreBonus > 5) {
+            maxVictoire += 2;
+        } else if (scoreBonus > 0) {
+            maxVictoire += 1;
+        }
 
-        maxVictoire += maxBonus;
-
-
-        System.out.println("Vous aurrez au max " + maxVictoire + " (" + maxBonus + "bonus) victoires et vous commencerez avec " + pointCapital + " points");
+        System.out.println("Vous aurrez au max " + maxVictoire + "victoires et vous commencerez avec " + pointCapital + " points");
 
         if (victoires > maxVictoire) {
             System.out.println("Vous avez trop de victoires, seulement " + maxVictoire + " seront comptabilisés");
