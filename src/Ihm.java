@@ -2,6 +2,7 @@ import clavier.In;
 
 public class Ihm {
     void main(String[] args) {
+        String[] CLASSEMENT = {"NC", "40", "30/5", "30/4", "30/3", "30/2", "30/1", "30", "15/5", "15/4"};
         int classement = 0, maxVictoire = 0, maxBonus = 0, pointCapital = 0, victoires = 0, defaites = 0, pts = 0;
 
         System.out.println("[1] NC");
@@ -204,10 +205,13 @@ public class Ihm {
 
         if (pts >= max) {
             System.out.println("Bravo ! Vous monter de 1 dans le classement");
+            System.out.println("Vous passez donc "+CLASSEMENT[classement+1]);
         } else if (pts <= min) {
             System.out.println("Dommage ! Vous perdez de 1 dans le classement");
+            System.out.println("Vous passez donc "+CLASSEMENT[classement-1]);
         } else {
             System.out.println("Vous ne bougez pas dans le classement");
+            System.out.println("Vous etes donc "+CLASSEMENT[classement]);
         }
     }
 
