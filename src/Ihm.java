@@ -1,10 +1,13 @@
 import clavier.In;
 
+import java.util.Arrays;
+
 public class Ihm {
     void main(String[] args) {
         String[] CLASSEMENT = {"NC", "40", "30/5", "30/4", "30/3", "30/2", "30/1", "30", "15/5", "15/4"};
         int classement = 0, maxVictoire = 0, maxBonus = 0, pointCapital = 0, victoires = 0, defaites = 0, pts = 0;
 
+//        Arrays.stream(CLASSEMENT).forEach(s -> "["+(CLASSEMENT.indexOf(s)+1)+"]"+System.out.println(s));
         System.out.println("[1] NC");
         System.out.println("[2] 40");
         System.out.println("[3] 30/5");
@@ -122,36 +125,26 @@ public class Ihm {
         pts = pointCapital;
         for (int i = 0; i < victoires; i++) {
             int addPts = 0;
-            System.out.println("Victoire n°" + (i + 1) + " :");
-            System.out.println("[1] Victoire à 2 échelons au dessus et plus");
-            System.out.println("[2] Victoire à 1 échelon au dessus");
-            System.out.println("[3] Victoire à échelon égal");
-            System.out.println("[4] Victoire à 1 échelon en dessous");
-            System.out.println("[5] Victoire à 2 échelons en dessous");
-            System.out.println("[6] Victoire à 3 échelons en dessous");
-            System.out.println("[7] Victoire à 4 échelons en dessous et plus");
-
-            System.out.print("\nEntrez votre type de victoire : ");
-            switch (In.readInteger()) {
-                case 1:
+            switch (askEchelon(true, i)) {
+                case 0:
                     addPts = 150;
                     break;
-                case 2:
+                case 1:
                     addPts = 100;
                     break;
-                case 3:
+                case 2:
                     addPts = 50;
                     break;
-                case 4:
+                case 3:
                     addPts = 30;
                     break;
-                case 5:
+                case 4:
                     addPts = 20;
                     break;
-                case 6:
+                case 5:
                     addPts = 15;
                     break;
-                case 7:
+                case 6:
                     break;
             }
             pts += addPts;
@@ -205,13 +198,13 @@ public class Ihm {
 
         if (pts >= max) {
             System.out.println("Bravo ! Vous monter de 1 dans le classement");
-            System.out.println("Vous passez donc "+CLASSEMENT[classement+1]);
+            System.out.println("Vous passez donc " + CLASSEMENT[classement + 1]);
         } else if (pts <= min) {
             System.out.println("Dommage ! Vous perdez de 1 dans le classement");
-            System.out.println("Vous passez donc "+CLASSEMENT[classement-1]);
+            System.out.println("Vous passez donc " + CLASSEMENT[classement - 1]);
         } else {
             System.out.println("Vous ne bougez pas dans le classement");
-            System.out.println("Vous etes donc "+CLASSEMENT[classement]);
+            System.out.println("Vous etes donc " + CLASSEMENT[classement]);
         }
     }
 
