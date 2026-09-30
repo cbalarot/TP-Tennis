@@ -1,8 +1,8 @@
 import clavier.In;
 
 public class Ihm {
-    static void main(String[] args) {
-        int classement = 0, maxVictoire = 0, pointCapital = 0, victoires = 0, pts = 0;
+    void main(String[] args) {
+        int classement = 0, maxVictoire = 0, maxBonus = 0, pointCapital = 0, victoires = 0, defaites = 0, pts = 0;
 
         System.out.println("[1] NC");
         System.out.println("[2] 40");
@@ -63,10 +63,42 @@ public class Ihm {
                 System.out.println("Classement non valide");
         }
 
-        System.out.println("Vous aurrez au max " + maxVictoire + " victoires et vous commencerez avec " + pointCapital + " points\n");
-
         System.out.print("Entrez votre nombre de victoire : ");
         victoires = In.readInteger();
+
+        System.out.print("Entrez votre nombre de défaites : ");
+        defaites = In.readInteger();
+
+        //Bonus calcule
+        int echelonEgale = 0;
+        int echelon1Inf = 0;
+        int echelon2Inf = 0;
+        for (int i = 0; i < defaites; i++) {
+            switch (this.askEchelon(false, i + 1)) {
+                case 2: //echelon égale
+                    echelonEgale++;
+                    break;
+                case 3:
+                    echelon1Inf++;
+                    break;
+                case 4:
+                    echelon2Inf++;
+                    break;
+            }
+        }
+        // V – e – 2i - 5G
+            /*
+                • V = nombre de victoires
+                • E = nombre de défaites à échelon égal
+                • I = nombre de défaites à 1 échelon inférieur ;
+                • G =nombre de défaite à 2 échelons
+            * */
+        maxBonus = victoires - echelonEgale - 2 * echelon1Inf - 5 * echelon2Inf;
+
+        maxVictoire += maxBonus;
+
+
+        System.out.println("Vous aurrez au max " + maxVictoire + " (" + maxBonus + "bonus) victoires et vous commencerez avec " + pointCapital + " points");
 
         if (victoires > maxVictoire) {
             System.out.println("Vous avez trop de victoires, seulement " + maxVictoire + " seront comptabilisés");
@@ -167,5 +199,32 @@ public class Ihm {
         } else {
             System.out.println("Vous ne bougez pas dans le classement");
         }
+    }
+
+    /**
+     * @param victoire boolean => Echelon de victoire ou défaite
+     * @return int Numéro de l'echellon
+     * <p>
+     * 0 => Victoire à 2 échelons au dessus et plus
+     * 1 => Victoire à 1 échelon au dessus
+     * 2 => Victoire à échelon égal
+     * 3 => Victoire à 1 échelon en dessous
+     * 4 => Victoire à 2 échelons en dessous
+     * 5 => Victoire à 3 échelons en dessous
+     * 6 => Victoire à 4 échelons en dessous et plus
+     */
+    private int askEchelon(boolean victoire, int num) {
+        String type = victoire ? "Victoire" : "Défaite";
+        System.out.println(type + " n°" + num + " :");
+        System.out.println("[1] " + type + " à 2 échelons au dessus et plus");
+        System.out.println("[2] " + type + " à 1 échelon au dessus");
+        System.out.println("[3] " + type + " à échelon égal");
+        System.out.println("[4] " + type + " à 1 échelon en dessous");
+        System.out.println("[5] " + type + " à 2 échelons en dessous");
+        System.out.println("[6] " + type + " à 3 échelons en dessous");
+        System.out.println("[7] " + type + " à 4 échelons en dessous et plus");
+
+        System.out.print("\nEntrez votre type de " + type + " : ");
+        return In.readInteger();
     }
 }
