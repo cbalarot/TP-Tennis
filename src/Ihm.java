@@ -75,6 +75,7 @@ public class Ihm {
 
             System.out.print("Entrez votre nombre de défaites : ");
             defaites = In.readInteger();
+            System.out.println();
 
             //Bonus calcule
             int echelonEgale = 0;
