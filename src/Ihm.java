@@ -115,11 +115,17 @@ public class Ihm {
             } else if (scoreBonus > 0) {
                 maxVictoire += 1;
             }
+            System.out.println(ConsoleColors.ANSI_GREEN_BOLD + victoires + ConsoleColors.ANSI_RED_BOLD + "-"
+                    + ConsoleColors.ANSI_GREEN_BOLD + echelonEgale + ConsoleColors.ANSI_RED_BOLD + "-"
+                    + ConsoleColors.ANSI_GREEN_BOLD + "2" + ConsoleColors.ANSI_RED_BOLD + "*" + ConsoleColors.ANSI_GREEN_BOLD
+                    + echelon1Inf + ConsoleColors.ANSI_RED_BOLD + "-" + ConsoleColors.ANSI_GREEN_BOLD + "5"
+                    + ConsoleColors.ANSI_RED_BOLD + "*" + ConsoleColors.ANSI_GREEN_BOLD + echelon2Inf
+                    + ConsoleColors.ANSI_RED_BOLD + "=" + ConsoleColors.ANSI_BLUE_BOLD + scoreBonus + ConsoleColors.ANSI_RESET);
 
             if (victoires > maxVictoire) {
                 victoires = maxVictoire;
             }
-            System.out.println("Vous avez droit a " + ConsoleColors.ANSI_BLUE_BOLD + victoires + ConsoleColors.ANSI_RESET + " de comptabiliser et vous commencerez avec " + ConsoleColors.ANSI_BLUE_BOLD + pointCapital + ConsoleColors.ANSI_RESET);
+            System.out.println("Vous avez " + ConsoleColors.ANSI_BLUE_BOLD + victoires + ConsoleColors.ANSI_RESET + " victoires et vous commencerez avec " + ConsoleColors.ANSI_BLUE_BOLD + pointCapital + ConsoleColors.ANSI_RESET + " points");
             System.out.println();
 
             pts = pointCapital;
@@ -207,6 +213,7 @@ public class Ihm {
             } else {
                 System.out.println("Vous ne bougez pas dans le classement");
                 System.out.println("Vous etes donc " + CLASSEMENT[classement - 1]);
+                break;
             }
         } while (true);
     }
