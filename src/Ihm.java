@@ -198,7 +198,7 @@ public class Ihm {
 
         if (pts >= max) {
             System.out.println("Bravo ! Vous monter de 1 dans le classement");
-            System.out.println("Vous passez donc " + CLASSEMENT[classement + 1]);
+            System.out.println("Vous passez donc " + CLASSEMENT[classement]);
         } else if (pts <= min) {
             System.out.println("Dommage ! Vous perdez de 1 dans le classement");
             System.out.println("Vous passez donc " + CLASSEMENT[classement - 1]);
