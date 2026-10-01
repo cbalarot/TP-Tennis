@@ -94,37 +94,42 @@ public class Ihm {
                         break;
                 }
             }
-            // V – e – 2i - 5G
+            if (victoires > maxVictoire) {
+                // V – e – 2i - 5G
             /*
                 • V = nombre de victoires
                 • E = nombre de défaites à échelon égal
                 • I = nombre de défaites à 1 échelon inférieur ;
                 • G =nombre de défaite à 2 échelons
             * */
-            int scoreBonus = victoires - echelonEgale - 2 * echelon1Inf - 5 * echelon2Inf;
-            if (scoreBonus >= 25) {
-                maxVictoire += 6;
-            } else if (scoreBonus > 20) {
-                maxVictoire += 5;
-            } else if (scoreBonus > 15) {
-                maxVictoire += 4;
-            } else if (scoreBonus > 10) {
-                maxVictoire += 3;
-            } else if (scoreBonus > 5) {
-                maxVictoire += 2;
-            } else if (scoreBonus > 0) {
-                maxVictoire += 1;
-            }
-            System.out.println(ConsoleColors.ANSI_GREEN_BOLD + victoires + ConsoleColors.ANSI_RED_BOLD + "-"
-                    + ConsoleColors.ANSI_GREEN_BOLD + echelonEgale + ConsoleColors.ANSI_RED_BOLD + "-"
-                    + ConsoleColors.ANSI_GREEN_BOLD + "2" + ConsoleColors.ANSI_RED_BOLD + "*" + ConsoleColors.ANSI_GREEN_BOLD
-                    + echelon1Inf + ConsoleColors.ANSI_RED_BOLD + "-" + ConsoleColors.ANSI_GREEN_BOLD + "5"
-                    + ConsoleColors.ANSI_RED_BOLD + "*" + ConsoleColors.ANSI_GREEN_BOLD + echelon2Inf
-                    + ConsoleColors.ANSI_RED_BOLD + "=" + ConsoleColors.ANSI_BLUE_BOLD + scoreBonus + ConsoleColors.ANSI_RESET);
+                int scoreBonus = victoires - echelonEgale - 2 * echelon1Inf - 5 * echelon2Inf;
+                if (scoreBonus >= 25) {
+                    maxVictoire += 6;
+                } else if (scoreBonus > 20) {
+                    maxVictoire += 5;
+                } else if (scoreBonus > 15) {
+                    maxVictoire += 4;
+                } else if (scoreBonus > 10) {
+                    maxVictoire += 3;
+                } else if (scoreBonus > 5) {
+                    maxVictoire += 2;
+                } else if (scoreBonus > 0) {
+                    maxVictoire += 1;
+                }
+                System.out.println("V = " + victoires);
+                System.out.println("E = " + echelonEgale);
+                System.out.println("I = " + echelon1Inf);
+                System.out.println("G = " + echelon2Inf);
+                System.out.println("V - E - 2 * I - 5 * G = point bonus");
+                System.out.println(victoires + "-" + echelonEgale + "-" + 2 * echelon1Inf + "-" + 5 * echelon2Inf + "=" + scoreBonus);
+                System.out.println("Vous avez un score bonus de " + ConsoleColors.ANSI_BLUE_BOLD + scoreBonus + ConsoleColors.ANSI_RESET);
+                System.out.println("Cela vous donne droit a " + ConsoleColors.ANSI_BLUE_BOLD + maxVictoire + ConsoleColors.ANSI_RESET + " victoires au total.");
 
-            if (victoires > maxVictoire) {
-                victoires = maxVictoire;
+                if (victoires > maxVictoire) {
+                    victoires = maxVictoire;
+                }
             }
+
             System.out.println("Vous avez " + ConsoleColors.ANSI_BLUE_BOLD + victoires + ConsoleColors.ANSI_RESET + " victoires et vous commencerez avec " + ConsoleColors.ANSI_BLUE_BOLD + pointCapital + ConsoleColors.ANSI_RESET + " points");
             System.out.println();
 
