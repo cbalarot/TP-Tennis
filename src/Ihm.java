@@ -8,57 +8,14 @@ public class Ihm {
     void main(String[] args) {
         final String[] STATS = {"2 échelons au dessus et plus", "1 échelon au dessus", "échelon égal",
                 "1 échelon en dessous", "2 échelons en dessous", "3 échelons en dessous", "4 échelons en dessous et plus"};
-        final int NC = 1, _40 = 2, _30_5 = 3, _30_4 = 4, _30_3 = 5, _30_2 = 6, _30_1 = 7, _30 = 8, _15_5 = 9, _15_4 = 10;
-        int rankIndex = -1, maxVictoire = 0, pointCapital = 0, victoires = 0, defaites = 0, pts;
+        int rankIndex = -1, maxVictoire, pointCapital, victoires = 0, defaites = 0, pts;
         ArrayList<Integer> victoiresStats = new ArrayList<>();
         ArrayList<Integer> defaitesStats = new ArrayList<>();
 
         do {
             if (rankIndex == -1) rankIndex = askRanking();
-            switch (rankIndex) {
-                case NC:
-                    maxVictoire = 5;
-                    pointCapital = 0;
-                    break;
-                case _40:
-                    maxVictoire = 5;
-                    pointCapital = 2;
-                    break;
-                case _30_5:
-                    maxVictoire = 5;
-                    pointCapital = 5;
-                    break;
-                case _30_4:
-                    maxVictoire = 5;
-                    pointCapital = 10;
-                    break;
-                case _30_3:
-                    maxVictoire = 6;
-                    pointCapital = 20;
-                    break;
-                case _30_2:
-                    maxVictoire = 6;
-                    pointCapital = 30;
-                    break;
-                case _30_1:
-                    maxVictoire = 6;
-                    pointCapital = 50;
-                    break;
-                case _30:
-                    maxVictoire = 6;
-                    pointCapital = 80;
-                    break;
-                case _15_5:
-                    maxVictoire = 6;
-                    pointCapital = 120;
-                    break;
-                case _15_4:
-                    maxVictoire = 6;
-                    pointCapital = 160;
-                    break;
-                default:
-                    System.out.println("Classement non valide");
-            }
+            pointCapital = getCapitalFromRank(rankIndex);
+            maxVictoire = getMaxVictoryFromRank(rankIndex);
 
             if (victoiresStats.isEmpty()) {
                 System.out.print("Entrez votre nombre de victoire : ");
@@ -237,7 +194,7 @@ public class Ihm {
 
     private int askRanking() {
         for (int i = 0; i < this.RANKINGS.length; i++) {
-            if (i==0) continue;
+            if (i == 0) continue;
             System.out.println("[" + (i) + "] " + this.RANKINGS[i]);
         }
         System.out.print("Entrez votre classement : ");
@@ -252,6 +209,29 @@ public class Ihm {
             case 4 -> 30;
             case 5 -> 20;
             case 6 -> 15;
+            default -> 0;
+        };
+    }
+
+    private int getCapitalFromRank(int rank) {
+        return switch (rank) {
+            case 2 -> 2;
+            case 3 -> 5;
+            case 4 -> 10;
+            case 5 -> 20;
+            case 6 -> 30;
+            case 7 -> 50;
+            case 8 -> 80;
+            case 9 -> 120;
+            case 10 -> 160;
+            default -> 0;
+        };
+    }
+
+    private int getMaxVictoryFromRank(int rank) {
+        return switch (rank) {
+            case 1, 2, 3, 4 -> 5;
+            case 5, 6, 7, 8, 9, 10 -> 6;
             default -> 0;
         };
     }
