@@ -101,7 +101,7 @@ public class Ihm {
                 • G =nombre de défaite à 2 échelons
             * */
             int scoreBonus = victoires - echelonEgale - 2 * echelon1Inf - 5 * echelon2Inf;
-            if (scoreBonus > 25) {
+            if (scoreBonus >= 25) {
                 maxVictoire += 6;
             } else if (scoreBonus > 20) {
                 maxVictoire += 5;
