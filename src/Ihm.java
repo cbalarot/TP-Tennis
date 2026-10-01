@@ -2,7 +2,8 @@ import clavier.In;
 
 public class Ihm {
     void main(String[] args) {
-        String[] CLASSEMENT = {"NC", "40", "30/5", "30/4", "30/3", "30/2", "30/1", "30", "15/5", "15/4"};
+        final String[] CLASSEMENT = {"NC", "40", "30/5", "30/4", "30/3", "30/2", "30/1", "30", "15/5", "15/4"};
+        final int NC = 1, _40 = 2, _30_5 = 3, _30_4 = 4, _30_3 = 5, _30_2 = 6, _30_1 = 7, _30 = 8, _15_5 = 9, _15_4 = 10;
         int classement = 0, maxVictoire = 0, pointCapital = 0, victoires, defaites, pts;
 
         do {
@@ -24,43 +25,43 @@ public class Ihm {
 
 
             switch (classement) {
-                case 1:
+                case NC:
                     maxVictoire = 5;
                     pointCapital = 0;
                     break;
-                case 2:
+                case _40:
                     maxVictoire = 5;
                     pointCapital = 2;
                     break;
-                case 3:
+                case _30_5:
                     maxVictoire = 5;
                     pointCapital = 5;
                     break;
-                case 4:
+                case _30_4:
                     maxVictoire = 5;
                     pointCapital = 10;
                     break;
-                case 5:
+                case _30_3:
                     maxVictoire = 6;
                     pointCapital = 20;
                     break;
-                case 6:
+                case _30_2:
                     maxVictoire = 6;
                     pointCapital = 30;
                     break;
-                case 7:
+                case _30_1:
                     maxVictoire = 6;
                     pointCapital = 50;
                     break;
-                case 8:
+                case _30:
                     maxVictoire = 6;
                     pointCapital = 80;
                     break;
-                case 9:
+                case _15_5:
                     maxVictoire = 6;
                     pointCapital = 120;
                     break;
-                case 10:
+                case _15_4:
                     maxVictoire = 6;
                     pointCapital = 160;
                     break;
