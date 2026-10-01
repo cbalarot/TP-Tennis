@@ -116,14 +116,10 @@ public class Ihm {
                 maxVictoire += 1;
             }
 
-            System.out.println("Vous aurrez au max " + maxVictoire + "victoires et vous commencerez avec " + pointCapital + " points");
-
             if (victoires > maxVictoire) {
-                System.out.println("Vous avez trop de victoires, seulement " + maxVictoire + " seront comptabilisés");
                 victoires = maxVictoire;
-            } else {
-                System.out.println("Vous commencerez avec " + victoires + " victoires");
             }
+            System.out.println("Vous avez droit a " + ConsoleColors.ANSI_BLUE_BOLD + victoires + ConsoleColors.ANSI_RESET + " de comptabiliser et vous commencerez avec " + ConsoleColors.ANSI_BLUE_BOLD + pointCapital + ConsoleColors.ANSI_RESET);
             System.out.println();
 
             pts = pointCapital;
