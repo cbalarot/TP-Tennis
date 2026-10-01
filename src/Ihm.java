@@ -129,7 +129,7 @@ public class Ihm {
             pts = pointCapital;
             for (int i = 0; i < victoires; i++) {
                 int addPts = 0;
-                switch (askEchelon(true, i)) {
+                switch (askEchelon(true, i + 1)) {
                     case 1:
                         addPts = 150;
                         break;
