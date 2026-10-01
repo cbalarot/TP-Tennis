@@ -82,13 +82,13 @@ public class Ihm {
             int echelon2Inf = 0;
             for (int i = 0; i < defaites; i++) {
                 switch (this.askEchelon(false, i + 1)) {
-                    case 2: //echelon égale
+                    case 3: //echelon égale
                         echelonEgale++;
                         break;
-                    case 3:
+                    case 4:
                         echelon1Inf++;
                         break;
-                    case 4:
+                    case 5:
                         echelon2Inf++;
                         break;
                 }
@@ -129,25 +129,25 @@ public class Ihm {
             for (int i = 0; i < victoires; i++) {
                 int addPts = 0;
                 switch (askEchelon(true, i)) {
-                    case 0:
+                    case 1:
                         addPts = 150;
                         break;
-                    case 1:
+                    case 2:
                         addPts = 100;
                         break;
-                    case 2:
+                    case 3:
                         addPts = 50;
                         break;
-                    case 3:
+                    case 4:
                         addPts = 30;
                         break;
-                    case 4:
+                    case 5:
                         addPts = 20;
                         break;
-                    case 5:
+                    case 6:
                         addPts = 15;
                         break;
-                    case 6:
+                    case 7:
                         break;
                 }
                 pts += addPts;
@@ -219,13 +219,13 @@ public class Ihm {
      * @param victoire boolean => Echelon de victoire ou défaite
      * @return int Numéro de l'echellon
      * <p>
-     * 0 => Victoire à 2 échelons au dessus et plus
-     * 1 => Victoire à 1 échelon au dessus
-     * 2 => Victoire à échelon égal
-     * 3 => Victoire à 1 échelon en dessous
-     * 4 => Victoire à 2 échelons en dessous
-     * 5 => Victoire à 3 échelons en dessous
-     * 6 => Victoire à 4 échelons en dessous et plus
+     * 1 => Victoire à 2 échelons au dessus et plus
+     * 2 => Victoire à 1 échelon au dessus
+     * 3 => Victoire à échelon égal
+     * 4 => Victoire à 1 échelon en dessous
+     * 5 => Victoire à 2 échelons en dessous
+     * 6 => Victoire à 3 échelons en dessous
+     * 7 => Victoire à 4 échelons en dessous et plus
      */
     private int askEchelon(boolean victoire, int num) {
         String type = victoire ? "Victoire" : "Défaite";
