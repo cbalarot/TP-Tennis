@@ -158,7 +158,6 @@ public class Ihm {
             int min = 0, max = 0;
             switch (classement) {
                 case 1:
-                    min = 0;
                     max = 50;
                     break;
                 case 2:
