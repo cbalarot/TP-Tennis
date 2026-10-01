@@ -1,7 +1,5 @@
 import clavier.In;
 
-import java.util.Arrays;
-
 public class Ihm {
     void main(String[] args) {
         String[] CLASSEMENT = {"NC", "40", "30/5", "30/4", "30/3", "30/2", "30/1", "30", "15/5", "15/4"};
