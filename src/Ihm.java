@@ -1,30 +1,21 @@
 import clavier.In;
 
+import java.util.ArrayList;
+
 public class Ihm {
+    private final String[] RANKINGS = {"", "NC", "40", "30/5", "30/4", "30/3", "30/2", "30/1", "30", "15/5", "15/4"};
+
     void main(String[] args) {
-        final String[] CLASSEMENT = {"NC", "40", "30/5", "30/4", "30/3", "30/2", "30/1", "30", "15/5", "15/4"};
+        final String[] STATS = {"2 échelons au dessus et plus", "1 échelon au dessus", "échelon égal",
+                "1 échelon en dessous", "2 échelons en dessous", "3 échelons en dessous", "4 échelons en dessous et plus"};
         final int NC = 1, _40 = 2, _30_5 = 3, _30_4 = 4, _30_3 = 5, _30_2 = 6, _30_1 = 7, _30 = 8, _15_5 = 9, _15_4 = 10;
-        int classement = 0, maxVictoire = 0, pointCapital = 0, victoires, defaites, pts;
+        int rankIndex = -1, maxVictoire = 0, pointCapital = 0, victoires = 0, defaites = 0, pts;
+        ArrayList<Integer> victoiresStats = new ArrayList<>();
+        ArrayList<Integer> defaitesStats = new ArrayList<>();
 
         do {
-            if (classement == 0) {
-                System.out.println("[1] NC");
-                System.out.println("[2] 40");
-                System.out.println("[3] 30/5");
-                System.out.println("[4] 30/4");
-                System.out.println("[5] 30/3");
-                System.out.println("[6] 30/2");
-                System.out.println("[7] 30/1");
-                System.out.println("[8] 30");
-                System.out.println("[9] 15/5");
-                System.out.println("[10] 15/4");
-                System.out.print("Entrez votre classement : ");
-
-                classement = In.readInteger();
-            }
-
-
-            switch (classement) {
+            if (rankIndex == -1) rankIndex = askRanking();
+            switch (rankIndex) {
                 case NC:
                     maxVictoire = 5;
                     pointCapital = 0;
@@ -69,11 +60,23 @@ public class Ihm {
                     System.out.println("Classement non valide");
             }
 
-            System.out.print("Entrez votre nombre de victoire : ");
-            victoires = In.readInteger();
+            if (victoiresStats.isEmpty()) {
+                System.out.print("Entrez votre nombre de victoire : ");
+                victoires = In.readInteger();
+            }
 
-            System.out.print("Entrez votre nombre de défaites : ");
-            defaites = In.readInteger();
+            if (defaitesStats.isEmpty()) {
+                System.out.print("Entrez votre nombre de défaites : ");
+                defaites = In.readInteger();
+            } else {
+                System.out.println("Voici vos défaites actuelles :");
+                int i = 0;
+                for (int def : defaitesStats) {
+                    System.out.println(i + " " + def);
+                    i++;
+                }
+                System.out.println("Avez vous de nouvelle défaites? [0-9]");
+            }
             System.out.println();
 
             //Bonus calcule
@@ -133,90 +136,73 @@ public class Ihm {
             System.out.println();
 
             pts = pointCapital;
-            for (int i = 0; i < victoires; i++) {
-                int addPts = 0;
-                switch (askEchelon(true, i + 1)) {
-                    case 1:
-                        addPts = 150;
-                        break;
-                    case 2:
-                        addPts = 100;
-                        break;
-                    case 3:
-                        addPts = 50;
-                        break;
-                    case 4:
-                        addPts = 30;
-                        break;
-                    case 5:
-                        addPts = 20;
-                        break;
-                    case 6:
-                        addPts = 15;
-                        break;
-                    case 7:
-                        break;
+            if (victoiresStats.isEmpty()) {
+                for (int i = 0; i < maxVictoire; i++) {
+                    victoiresStats.add(askEchelon(true, i + 1));
                 }
+            }
+
+            for (int vic : victoiresStats) {
+                int addPts = getPtsFromVictory(vic);
                 pts += addPts;
                 System.out.println("A l'issue de ce match vous avez gagné " + ConsoleColors.ANSI_BLUE_BOLD + addPts + ConsoleColors.ANSI_RESET + " points\n");
             }
             System.out.println("Vous avez un total de " + ConsoleColors.ANSI_BLUE_BOLD + pts + ConsoleColors.ANSI_RESET + " points");
 
             int min = 0, max = 0;
-            switch (classement) {
-                case 1:
-                    max = 50;
-                    break;
-                case 2:
+            max = switch (rankIndex) {
+                case 1 -> 50;
+                case 2 -> {
                     min = 30;
-                    max = 80;
-                    break;
-                case 3:
+                    yield 80;
+                }
+                case 3 -> {
                     min = 50;
-                    max = 150;
-                    break;
-                case 4:
+                    yield 150;
+                }
+                case 4 -> {
                     min = 90;
-                    max = 260;
-                    break;
-                case 5:
+                    yield 260;
+                }
+                case 5 -> {
                     min = 145;
-                    max = 340;
-                    break;
-                case 6:
+                    yield 340;
+                }
+                case 6 -> {
                     min = 205;
-                    max = 410;
-                    break;
-                case 7:
+                    yield 410;
+                }
+                case 7 -> {
                     min = 245;
-                    max = 480;
-                    break;
-                case 8:
+                    yield 480;
+                }
+                case 8 -> {
                     min = 290;
-                    max = 510;
-                    break;
-                case 9:
+                    yield 510;
+                }
+                case 9 -> {
                     min = 325;
-                    max = 580;
-                    break;
-                case 10:
+                    yield 580;
+                }
+                case 10 -> {
                     min = 395;
-                    max = 660;
-                    break;
-            }
+                    yield 660;
+                }
+                default -> max;
+            };
 
             if (pts >= max) {
-                System.out.println("Bravo ! Vous monter de 1 dans le classement");
-                System.out.println("Vous passez donc " + CLASSEMENT[classement]);
-                classement++;
+                System.out.println("Bravo ! Vous monter de 1 dans le rankIndex");
+                System.out.println("Vous passez donc " + RANKINGS[rankIndex]);
+                rankIndex++;
             } else if (pts <= min) {
-                System.out.println("Dommage ! Vous perdez de 1 dans le classement");
-                System.out.println("Vous passez donc " + CLASSEMENT[classement - 2]);
+                System.out.println("Dommage ! Vous perdez de 1 dans le rankIndex");
+                System.out.println("Vous passez donc " + RANKINGS[rankIndex - 2]);
                 System.out.println("Vous ne pouvez pas plus décendre donc c'est la fin du match");
                 break;
             } else {
-                System.out.println("Vous ne bougez pas dans le classement");
-                System.out.println("Vous etes donc " + CLASSEMENT[classement - 1]);
+                System.out.println("Vous ne bougez pas dans le rankIndex");
+                System.out.println("Vous etes donc " + RANKINGS[rankIndex - 1]);
                 break;
             }
         } while (true);
@@ -247,5 +233,26 @@ public class Ihm {
 
         System.out.print("\nEntrez votre type de " + type + " : ");
         return In.readInteger();
+    }
+
+    private int askRanking() {
+        for (int i = 0; i < this.RANKINGS.length; i++) {
+            if (i==0) continue;
+            System.out.println("[" + (i) + "] " + this.RANKINGS[i]);
+        }
+        System.out.print("Entrez votre classement : ");
+        return In.readInteger();
+    }
+
+    private int getPtsFromVictory(int vic) {
+        return switch (vic) {
+            case 1 -> 150;
+            case 2 -> 100;
+            case 3 -> 50;
+            case 4 -> 30;
+            case 5 -> 20;
+            case 6 -> 15;
+            default -> 0;
+        };
     }
 }
