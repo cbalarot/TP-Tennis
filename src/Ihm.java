@@ -4,16 +4,15 @@ import java.util.ArrayList;
 
 public class Ihm {
     private final String[] RANKINGS = {"", "NC", "40", "30/5", "30/4", "30/3", "30/2", "30/1", "30", "15/5", "15/4"};
+    private final String[] STATS = {"4 échelons en dessous et plus", "3 échelons en dessous", "2 échelons en dessous",
+            "1 échelon en dessous", "échelon égal", "1 échelon au dessus", "2 échelons au dessus et plus"};
 
     void main(String[] args) {
-        final String[] STATS = {"2 échelons au dessus et plus", "1 échelon au dessus", "échelon égal",
-                "1 échelon en dessous", "2 échelons en dessous", "3 échelons en dessous", "4 échelons en dessous et plus"};
         int rankIndex = -1, maxVictoire, pointCapital, victoires = 0, defaites = 0, pts;
         ArrayList<Integer> victoiresStats = new ArrayList<>();
-        ArrayList<Integer> defaitesStats = new ArrayList<>();
 
         do {
-            if (rankIndex == -1) rankIndex = askRanking();
+            if (rankIndex == -1) rankIndex = askRanking(false);
             pointCapital = getCapitalFromRank(rankIndex);
             maxVictoire = getMaxVictoryFromRank(rankIndex);
 
@@ -22,18 +21,11 @@ public class Ihm {
                 victoires = In.readInteger();
             }
 
-            if (defaitesStats.isEmpty()) {
+            if (victoires > maxVictoire) {
                 System.out.print("Entrez votre nombre de défaites : ");
                 defaites = In.readInteger();
-            } else {
-                System.out.println("Voici vos défaites actuelles :");
-                int i = 0;
-                for (int def : defaitesStats) {
-                    System.out.println(i + " " + STATS[def - 1]);
-                    i++;
-                }
-                System.out.println("Avez vous de nouvelle défaites? [0-9]");
             }
+
             System.out.println();
 
             //Bonus calcule
@@ -41,19 +33,21 @@ public class Ihm {
             int echelon1Inf = 0;
             int echelon2Inf = 0;
             for (int i = 0; i < defaites; i++) {
-                int def = this.askEchelon(false, i + 1);
-                defaitesStats.add(def);
-                switch (def) {
-                    case 3: //echelon égale
-                        echelonEgale++;
-                        break;
-                    case 4:
-                        echelon1Inf++;
-                        break;
-                    case 5:
+                System.out.println("Défaite n°" + (i + 1));
+                int def = this.askRanking(true);
+                int diff = rankDiff(rankIndex, def);
+                switch (diff) {
+                    case -2:
                         echelon2Inf++;
                         break;
+                    case -1:
+                        echelon1Inf++;
+                        break;
+                    case 0:
+                        echelonEgale++;
+                        break;
                 }
+                System.out.println("Vous avez donc perdu a " + rankIToStatsText(diff));
             }
             if (victoires > maxVictoire) {
                 // V – e – 2i - 5G
@@ -61,7 +55,7 @@ public class Ihm {
                 • V = nombre de victoires
                 • E = nombre de défaites à échelon égal
                 • I = nombre de défaites à 1 échelon inférieur ;
-                • G =nombre de défaite à 2 échelons
+                • G = nombre de défaites à 2 échelons
             * */
                 int scoreBonus = victoires - echelonEgale - 2 * echelon1Inf - 5 * echelon2Inf;
                 if (scoreBonus >= 25) {
@@ -98,14 +92,16 @@ public class Ihm {
             int addPts;
             if (victoiresStats.isEmpty()) {
                 for (int i = 0; i < victoires; i++) {
-                    victoiresStats.add(askEchelon(true, i + 1));
-                    addPts = getPtsFromVictory(victoiresStats.get(i));
+                    System.out.println("Victoire n°" + (i + 1));
+                    victoiresStats.add(askRanking(true));
+                    addPts = getPtsFromVictory(rankDiff(rankIndex, victoiresStats.get(i)));
                     pts += addPts;
+                    System.out.println("Vous avez donc gagné a " + rankIToStatsText(victoiresStats.get(i)));
                     System.out.println("A l'issue de ce match vous avez gagné " + ConsoleColors.ANSI_BLUE_BOLD + addPts + ConsoleColors.ANSI_RESET + " points\n");
                 }
             } else {
                 for (int vic : victoiresStats) {
-                    addPts = getPtsFromVictory(vic);
+                    addPts = getPtsFromVictory(rankDiff(rankIndex, vic));
                     pts += addPts;
                     System.out.println("A l'issue de ce match vous avez gagné " + ConsoleColors.ANSI_BLUE_BOLD + addPts + ConsoleColors.ANSI_RESET + " points\n");
                 }
@@ -156,70 +152,43 @@ public class Ihm {
             };
 
             if (pts >= max) {
-                System.out.println("Bravo ! Vous monter de 1 dans le classement");
-                System.out.println("Vous passez donc " + RANKINGS[rankIndex]);
                 rankIndex++;
+                System.out.println("Bravo ! Vous montez de 1 dans le classement");
+                System.out.println("Vous passez donc " + RANKINGS[rankIndex]);
             } else if (pts <= min) {
                 System.out.println("Dommage ! Vous perdez de 1 dans le classement");
-                System.out.println("Vous passez donc " + RANKINGS[rankIndex - 2]);
+                System.out.println("Vous passez donc " + RANKINGS[rankIndex - 1]);
                 System.out.println("Vous ne pouvez pas plus décendre donc c'est la fin du match");
                 break;
             } else {
                 System.out.println("Vous ne bougez pas dans le classement");
-                System.out.println("Vous etes donc " + RANKINGS[rankIndex - 1]);
+                System.out.println("Vous êtes donc " + RANKINGS[rankIndex]);
                 break;
             }
         } while (true);
     }
 
-    /**
-     * @param victoire boolean => Echelon de victoire ou défaite
-     * @return int Numéro de l'echellon
-     * <p>
-     * 1 => Victoire à 2 échelons au dessus et plus
-     * 2 => Victoire à 1 échelon au dessus
-     * 3 => Victoire à échelon égal
-     * 4 => Victoire à 1 échelon en dessous
-     * 5 => Victoire à 2 échelons en dessous
-     * 6 => Victoire à 3 échelons en dessous
-     * 7 => Victoire à 4 échelons en dessous et plus
-     */
-    private int askEchelon(boolean victoire, int num) {
-        String type = victoire ? "Victoire" : "Défaite";
-        System.out.println(type + " n°" + num + " :");
-        System.out.println("[1] " + type + " à 2 échelons au dessus et plus");
-        System.out.println("[2] " + type + " à 1 échelon au dessus");
-        System.out.println("[3] " + type + " à échelon égal");
-        System.out.println("[4] " + type + " à 1 échelon en dessous");
-        System.out.println("[5] " + type + " à 2 échelons en dessous");
-        System.out.println("[6] " + type + " à 3 échelons en dessous");
-        System.out.println("[7] " + type + " à 4 échelons en dessous et plus");
-
-        System.out.print("\nEntrez votre type de " + type + " : ");
-        return In.readInteger();
-    }
-
-    private int askRanking() {
+    private int askRanking(boolean match) {
         for (int i = 0; i < this.RANKINGS.length; i++) {
             if (i == 0) continue;
             System.out.println("[" + (i) + "] " + this.RANKINGS[i]);
         }
-        System.out.print("Entrez votre classement : ");
+        if (match) {
+            System.out.print("Entrez le classement de votre adversaire : ");
+        } else {
+            System.out.print("Entrez votre classement : ");
+        }
         return In.readInteger();
     }
-
     private int getPtsFromVictory(int vic) {
-        return switch (vic) {
-            case 1 -> 150;
-            case 2 -> 100;
-            case 3 -> 50;
-            case 4 -> 30;
-            case 5 -> 20;
-            case 6 -> 15;
-            default -> 0;
-        };
+        if (vic >= 2) return 150;
+        if (vic == 1) return 100;
+        if (vic == 0) return 50;
+        if (vic == -1) return 30;
+        if (vic == -2) return 20;
+        if (vic == -3) return 15;
+        return 0;
     }
-
     private int getCapitalFromRank(int rank) {
         return switch (rank) {
             case 2 -> 2;
@@ -234,12 +203,19 @@ public class Ihm {
             default -> 0;
         };
     }
-
     private int getMaxVictoryFromRank(int rank) {
         return switch (rank) {
             case 1, 2, 3, 4 -> 5;
             case 5, 6, 7, 8, 9, 10 -> 6;
             default -> 0;
         };
+    }
+    private int rankDiff(int myRank, int otherRank) {
+        return otherRank - myRank;
+    }
+    private String rankIToStatsText(int rank) {
+        if (rank < -4) rank = -4;
+        if (rank > 2) rank = 2;
+        return STATS[rank + 4];
     }
 }
