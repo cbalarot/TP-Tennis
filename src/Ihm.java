@@ -29,7 +29,7 @@ public class Ihm {
                 System.out.println("Voici vos défaites actuelles :");
                 int i = 0;
                 for (int def : defaitesStats) {
-                    System.out.println(i + " " + def);
+                    System.out.println(i + " " + STATS[def - 1]);
                     i++;
                 }
                 System.out.println("Avez vous de nouvelle défaites? [0-9]");
@@ -41,7 +41,9 @@ public class Ihm {
             int echelon1Inf = 0;
             int echelon2Inf = 0;
             for (int i = 0; i < defaites; i++) {
-                switch (this.askEchelon(false, i + 1)) {
+                int def = this.askEchelon(false, i + 1);
+                defaitesStats.add(def);
+                switch (def) {
                     case 3: //echelon égale
                         echelonEgale++;
                         break;
@@ -93,17 +95,22 @@ public class Ihm {
             System.out.println();
 
             pts = pointCapital;
+            int addPts;
             if (victoiresStats.isEmpty()) {
-                for (int i = 0; i < maxVictoire; i++) {
+                for (int i = 0; i < victoires; i++) {
                     victoiresStats.add(askEchelon(true, i + 1));
+                    addPts = getPtsFromVictory(victoiresStats.get(i));
+                    pts += addPts;
+                    System.out.println("A l'issue de ce match vous avez gagné " + ConsoleColors.ANSI_BLUE_BOLD + addPts + ConsoleColors.ANSI_RESET + " points\n");
+                }
+            } else {
+                for (int vic : victoiresStats) {
+                    addPts = getPtsFromVictory(vic);
+                    pts += addPts;
+                    System.out.println("A l'issue de ce match vous avez gagné " + ConsoleColors.ANSI_BLUE_BOLD + addPts + ConsoleColors.ANSI_RESET + " points\n");
                 }
             }
 
-            for (int vic : victoiresStats) {
-                int addPts = getPtsFromVictory(vic);
-                pts += addPts;
-                System.out.println("A l'issue de ce match vous avez gagné " + ConsoleColors.ANSI_BLUE_BOLD + addPts + ConsoleColors.ANSI_RESET + " points\n");
-            }
             System.out.println("Vous avez un total de " + ConsoleColors.ANSI_BLUE_BOLD + pts + ConsoleColors.ANSI_RESET + " points");
 
             int min = 0, max = 0;
@@ -149,16 +156,16 @@ public class Ihm {
             };
 
             if (pts >= max) {
-                System.out.println("Bravo ! Vous monter de 1 dans le rankIndex");
+                System.out.println("Bravo ! Vous monter de 1 dans le classement");
                 System.out.println("Vous passez donc " + RANKINGS[rankIndex]);
                 rankIndex++;
             } else if (pts <= min) {
-                System.out.println("Dommage ! Vous perdez de 1 dans le rankIndex");
+                System.out.println("Dommage ! Vous perdez de 1 dans le classement");
                 System.out.println("Vous passez donc " + RANKINGS[rankIndex - 2]);
                 System.out.println("Vous ne pouvez pas plus décendre donc c'est la fin du match");
                 break;
             } else {
-                System.out.println("Vous ne bougez pas dans le rankIndex");
+                System.out.println("Vous ne bougez pas dans le classement");
                 System.out.println("Vous etes donc " + RANKINGS[rankIndex - 1]);
                 break;
             }
