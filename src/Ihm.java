@@ -8,16 +8,9 @@ public class Ihm {
 
         do {
             if (classement == 0) {
-                System.out.println("[1] NC");
-                System.out.println("[2] 40");
-                System.out.println("[3] 30/5");
-                System.out.println("[4] 30/4");
-                System.out.println("[5] 30/3");
-                System.out.println("[6] 30/2");
-                System.out.println("[7] 30/1");
-                System.out.println("[8] 30");
-                System.out.println("[9] 15/5");
-                System.out.println("[10] 15/4");
+                for (int i = 0; i < CLASSEMENT.length; i++) {
+                    System.out.println("[" + (i + 1) + "] " + CLASSEMENT[i]);
+                }
                 System.out.print("Entrez votre classement : ");
 
                 classement = In.readInteger();
@@ -207,12 +200,18 @@ public class Ihm {
 
             if (pts >= max) {
                 System.out.println("Bravo ! Vous monter de 1 dans le classement");
-                System.out.println("Vous passez donc " + CLASSEMENT[classement]);
+                if (classement == 10) {
+                    System.out.println("Vous ne pouvez pas plus monter donc c'est la fin du match");
+                } else {
+                    System.out.println("Vous passez donc " + CLASSEMENT[classement]);
+                }
                 classement++;
             } else if (pts <= min) {
                 System.out.println("Dommage ! Vous perdez de 1 dans le classement");
-                System.out.println("Vous passez donc " + CLASSEMENT[classement - 2]);
-                System.out.println("Vous ne pouvez pas plus décendre donc c'est la fin du match");
+                if (classement == 1)
+                    System.out.println("Vous ne pouvez pas plus décendre donc c'est la fin du match");
+                else
+                    System.out.println("Vous passez donc " + CLASSEMENT[classement - 2]);
                 break;
             } else {
                 System.out.println("Vous ne bougez pas dans le classement");
