@@ -94,9 +94,10 @@ public class Ihm {
                 for (int i = 0; i < victoires; i++) {
                     System.out.println("Victoire n°" + (i + 1));
                     victoiresStats.add(askRanking(true));
-                    addPts = getPtsFromVictory(rankDiff(rankIndex, victoiresStats.get(i)));
+                    int diff = rankDiff(rankIndex, victoiresStats.get(i));
+                    addPts = getPtsFromVictory(diff);
                     pts += addPts;
-                    System.out.println("Vous avez donc gagné a " + rankIToStatsText(victoiresStats.get(i)));
+                    System.out.println("Vous avez donc gagné a " + rankIToStatsText(diff));
                     System.out.println("A l'issue de ce match vous avez gagné " + ConsoleColors.ANSI_BLUE_BOLD + addPts + ConsoleColors.ANSI_RESET + " points\n");
                 }
             } else {
@@ -160,8 +161,8 @@ public class Ihm {
                     break;
                 }
             } else if (pts <= min) {
-                System.out.println("Dommage ! Vous perdez de 1 dans le classement");
-                if (rankIndex > 0) {
+                if (rankIndex > 1) {
+                    System.out.println("Dommage ! Vous perdez de 1 dans le classement");
                     System.out.println("Vous passez donc " + RANKINGS[rankIndex - 1]);
                 } else {
                     System.out.println("Vous etes deja en bas du classement donc vous ne pouvez pas plus décendre.");
@@ -187,7 +188,7 @@ public class Ihm {
                 System.out.print("Entrez votre classement : ");
             }
             int rankIndex = In.readInteger();
-            if (rankIndex < 0 || rankIndex >= this.RANKINGS.length) {
+            if (rankIndex < 1 || rankIndex >= this.RANKINGS.length) {
                 System.out.println("Classement invalide, veuillez réessayer");
                 continue;
             }
