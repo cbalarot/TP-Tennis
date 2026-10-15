@@ -152,13 +152,20 @@ public class Ihm {
             };
 
             if (pts >= max) {
-                rankIndex++;
-                System.out.println("Bravo ! Vous montez de 1 dans le classement");
-                System.out.println("Vous passez donc " + RANKINGS[rankIndex]);
+                if (rankIndex < RANKINGS.length - 1) {
+                    System.out.println("Bravo ! Vous montez de 1 dans le classement");
+                    System.out.println("Vous passez donc " + RANKINGS[rankIndex]);
+                } else {
+                    System.out.println("Vous êtes déjà en haut du classement donc vous ne pouvez pas plus monter. Fin du match et bravo !");
+                    break;
+                }
             } else if (pts <= min) {
                 System.out.println("Dommage ! Vous perdez de 1 dans le classement");
-                System.out.println("Vous passez donc " + RANKINGS[rankIndex - 1]);
-                System.out.println("Vous ne pouvez pas plus décendre donc c'est la fin du match");
+                if (rankIndex > 0) {
+                    System.out.println("Vous passez donc " + RANKINGS[rankIndex - 1]);
+                } else {
+                    System.out.println("Vous etes deja en bas du classement donc vous ne pouvez pas plus décendre.");
+                }
                 break;
             } else {
                 System.out.println("Vous ne bougez pas dans le classement");
