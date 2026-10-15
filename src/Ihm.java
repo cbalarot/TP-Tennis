@@ -7,7 +7,7 @@ public class Ihm {
     private final String[] STATS = {"4 échelons en dessous et plus", "3 échelons en dessous", "2 échelons en dessous",
             "1 échelon en dessous", "échelon égal", "1 échelon au dessus", "2 échelons au dessus et plus"};
 
-    void main(String[] args) {
+    public void main(String[] args) {
         int rankIndex = -1, maxVictoire, pointCapital, victoires = 0, defaites = 0, pts;
         ArrayList<Integer> victoiresStats = new ArrayList<>();
 
@@ -169,17 +169,25 @@ public class Ihm {
     }
 
     private int askRanking(boolean match) {
-        for (int i = 0; i < this.RANKINGS.length; i++) {
-            if (i == 0) continue;
-            System.out.println("[" + (i) + "] " + this.RANKINGS[i]);
-        }
-        if (match) {
-            System.out.print("Entrez le classement de votre adversaire : ");
-        } else {
-            System.out.print("Entrez votre classement : ");
-        }
-        return In.readInteger();
+        do {
+            for (int i = 0; i < this.RANKINGS.length; i++) {
+                if (i == 0) continue;
+                System.out.println("[" + (i) + "] " + this.RANKINGS[i]);
+            }
+            if (match) {
+                System.out.print("Entrez le classement de votre adversaire : ");
+            } else {
+                System.out.print("Entrez votre classement : ");
+            }
+            int rankIndex = In.readInteger();
+            if (rankIndex < 0 || rankIndex >= this.RANKINGS.length) {
+                System.out.println("Classement invalide, veuillez réessayer");
+                continue;
+            }
+            return rankIndex;
+        } while (true);
     }
+
     private int getPtsFromVictory(int vic) {
         if (vic >= 2) return 150;
         if (vic == 1) return 100;
@@ -189,6 +197,7 @@ public class Ihm {
         if (vic == -3) return 15;
         return 0;
     }
+
     private int getCapitalFromRank(int rank) {
         return switch (rank) {
             case 2 -> 2;
@@ -203,6 +212,7 @@ public class Ihm {
             default -> 0;
         };
     }
+
     private int getMaxVictoryFromRank(int rank) {
         return switch (rank) {
             case 1, 2, 3, 4 -> 5;
@@ -210,9 +220,11 @@ public class Ihm {
             default -> 0;
         };
     }
+
     private int rankDiff(int myRank, int otherRank) {
         return otherRank - myRank;
     }
+
     private String rankIToStatsText(int rank) {
         if (rank < -4) rank = -4;
         if (rank > 2) rank = 2;
